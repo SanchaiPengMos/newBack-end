@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -408,7 +409,6 @@ func (h *UserHandler) sumuser(c echo.Context) (err error) {
 
 	defer rows.Close()
 
-
 	var CheckUse []UserCheck
 
 	for rows.Next() {
@@ -482,6 +482,8 @@ func main() {
 
 	fmt.Println("Welcome to the server")
 
+	port := os.Getenv("PORT")
+
 	h := UserHandler{}
 
 	h.Initialize()
@@ -517,6 +519,6 @@ func main() {
 
 	e.PUT("/edituser/:id", h.edituser) //func แก้ไขผู้ใช้งาน
 
-	e.Start(":9999")
+	e.Start(":" + port)
 
 }
